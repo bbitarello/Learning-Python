@@ -42,4 +42,60 @@ if(	len(my_seq) % 3 != 0):
 		codon = my_seq[i:i+3]
 
 		all_aminoacids += gencode[codon]
+		
+		
+#Dict Exercise 2:
+
+#Using the following file containing different sequences from different species
+
+#cat /home/public/user/python_class/multiple_fasta_dict.fa
+#our collaborators provided a CSV file indicating the name of the species each sequence corresponds to
+
+#cat /home/public/user/python_class/multiple_fasta_dict.csv
+
+
+#    create a dict from the csv file (columns separated by ',')
+
+
+file = open('multiple_fasta_dict.csv')
+
+all_csv_lines = file.readlines()
+
+my_dict="{'"
+for line in all_csv_lines:
+	line = line.replace(",", "':'")
+	line = line.replace("\n", "','")
+	my_dict += line
+	
+my_dict += "'}"
+
+import ast
+
+my_dict = eval(my_dict)
+
+
+file2 = open("multiple_fasta_dict.fa")
+
+fastas = file2.readlines()
+
+for line in fastas:
+		if(line.startswith(">")):
+			header = line.replace("\n","")
+			a1,a2 = header.split(">")
+			if a2 in my_dict.keys():
+				print(a1 + a2 + " " + my_dict[a2]) 
+			else:
+				print(a1 + a2)
+		else:
+			print(line.replace("\n",""))
+					
+					
+								
+			
+#    print the sequence with the corresponding specie in the header e.g :
+#    >seq1 Homo sapiens
+#    ATGCGTCGAAT
+#    Don't worry if your output is not correct....yet
+
+		
 	
